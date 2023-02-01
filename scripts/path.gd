@@ -10,8 +10,9 @@ func add_rope_point(point):
 
 func rope_pulling():
     if rope.size() > 1:
-        var pulled = rope.pop_back()
-        get_parent().get_node("Player").position = pulled
+        if not get_parent().get_node("Player").test_move(get_parent().get_node("Player").transform, (get_parent().get_node("Player").position - rope.back()).normalized() * 0.01):
+            var pulled = rope.pop_back()
+            get_parent().get_node("Player").position = pulled
 
 func _process(delta):
     update()

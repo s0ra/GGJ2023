@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://sprites/roguelikecreaturesx3.png" type="Texture" id=1]
+[ext_resource path="res://scripts/ghost.gd" type="Script" id=2]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 24.0
+
+[node name="Ghost" type="KinematicBody2D"]
+position = Vector2( 741, -83 )
+collision_layer = 2
+collision_mask = 0
+script = ExtResource( 2 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+hframes = 8
+vframes = 9
+frame = 56
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
