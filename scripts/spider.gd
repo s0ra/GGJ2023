@@ -60,7 +60,7 @@ func _physics_process(delta):
         to_move = next_move
         is_down = true
         
-    if not get_node("VisibilityNotifier2D").is_on_screen():
+    if not get_node("VisibilityNotifier2D").is_on_screen() and get_parent().get_node("Player").last_depth > position.y:
         queue_free()
     update()
 #    elif not get_node("RayCast2D").get_collider() is KinematicBody2D and to_move == Vector2.ZERO and is_on_floor():

@@ -19,6 +19,6 @@ func _physics_process(delta):
         if to_move.distance_to(position) < 1.0:
             to_move = Vector2.ZERO
             
-    if not get_node("VisibilityNotifier2D").is_on_screen():
+    if not get_node("VisibilityNotifier2D").is_on_screen() and get_parent().get_node("Player").last_depth > position.y:
         queue_free()
         

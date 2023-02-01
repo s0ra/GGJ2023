@@ -26,7 +26,7 @@ func _physics_process(delta):
 #            for y in range(50):
 #                get_node("TileMap").set_cell(x + 5, y + int(float(ceil(get_node("Player").position.y / (24.0 * 48.0)) * 24.0) - 96), -1)
 
-        var level_id = str(randi() % 30 + 1)
+        var level_id = str(randi() % 60 + 1)
         print(level_id)
         var scene = load("res://scenes/rooms/room" + str(level_id) + ".tscn").instance()
         var tilemap = scene.get_node("TileMap")
@@ -74,7 +74,7 @@ func _physics_process(delta):
                 if cell == 6 and roll_wall > 50:
                     get_node("TileMap").set_cell(x + 5, int(ceil(get_node("Player").position.y / (24.0 * 48.0)) * 24.0) + y, 0)
         
-        level_id = randi() % 30 + 1
+        level_id = randi() % 60 + 1
         print(level_id)
 
         var scene2 = load("res://scenes/rooms/room" + str(level_id) + ".tscn").instance()

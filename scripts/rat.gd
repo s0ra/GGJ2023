@@ -61,5 +61,6 @@ func _physics_process(delta):
         get_node("RayCast2D").rotation_degrees = 90.0
     else:
         get_node("RayCast2D").rotation_degrees = 270.0
-    if not get_node("VisibilityNotifier2D").is_on_screen():
+    
+    if not get_node("VisibilityNotifier2D").is_on_screen() and get_parent().get_node("Player").last_depth > position.y:
         queue_free()
