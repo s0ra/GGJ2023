@@ -57,12 +57,20 @@ func _physics_process(delta):
                     var new_spike = spike.instance()
                     new_spike.position = Vector2(float(x + 5) * 48.0 + 24.0, float(int(ceil(get_node("Player").position.y / (24.0 * 48.0)) * 24.0) + y) * 48.0 + 24.0)
                     add_child(new_spike)
-                if cell == 7 and roll_monster > 50:
+                if cell == 7 and roll_monster > 30:
                     var new_rat = rat.instance()
-                    new_rat.position = Vector2(float(x + 5) * 48.0 + 24.0, float(int(ceil(get_node("Player").position.y / (24.0 * 48.0)) * 24.0) + y + 24.0) * 48.0 + 24.0)
+                    new_rat.position = Vector2(float(x + 5) * 48.0 + 24.0, float(int(ceil(get_node("Player").position.y / (24.0 * 48.0)) * 24.0) + y) * 48.0 + 24.0)
                     if not tilemap.is_cell_x_flipped(x + 5, y):
                         new_rat.is_left = true
                     add_child(new_rat)
+                if cell == 9 and roll_monster > 30:
+                    var new_ghost = ghost.instance()
+                    new_ghost.position = Vector2(float(x + 5) * 48.0 + 24.0, float(int(ceil(get_node("Player").position.y / (24.0 * 48.0)) * 24.0) + y) * 48.0 + 24.0)
+                    add_child(new_ghost)
+                if cell == 8 and roll_monster > 30:
+                    var new_spider = spider.instance()
+                    new_spider.position = Vector2(float(x + 5) * 48.0 + 24.0, float(int(ceil(get_node("Player").position.y / (24.0 * 48.0)) * 24.0) + y) * 48.0 + 24.0)
+                    add_child(new_spider)
                 if cell == 6 and roll_wall > 50:
                     get_node("TileMap").set_cell(x + 5, int(ceil(get_node("Player").position.y / (24.0 * 48.0)) * 24.0) + y, 0)
         
@@ -100,12 +108,20 @@ func _physics_process(delta):
                     var new_spike = spike.instance()
                     new_spike.position = Vector2(float(x + 5) * 48.0 + 24.0, float(int(ceil(get_node("Player").position.y / (24.0 * 48.0)) * 24.0) + y + 24.0) * 48.0 + 24.0)
                     add_child(new_spike)
-                if cell == 7 and roll_monster > 50:
+                if cell == 7 and roll_monster > 30:
                     var new_rat = rat.instance()
                     new_rat.position = Vector2(float(x + 5) * 48.0 + 24.0, float(int(ceil(get_node("Player").position.y / (24.0 * 48.0)) * 24.0) + y + 24.0) * 48.0 + 24.0)
                     if not tilemap2.is_cell_x_flipped(x + 5, y):
                         new_rat.is_left = true
                     add_child(new_rat)
+                if cell == 9 and roll_monster > 30:
+                    var new_ghost = ghost.instance()
+                    new_ghost.position = Vector2(float(x + 5) * 48.0 + 24.0, float(int(ceil(get_node("Player").position.y / (24.0 * 48.0)) * 24.0) + y + 24.0) * 48.0 + 24.0)
+                    add_child(new_ghost)
+                if cell == 8 and roll_monster > 30:
+                    var new_spider = spider.instance()
+                    new_spider.position = Vector2(float(x + 5) * 48.0 + 24.0, float(int(ceil(get_node("Player").position.y / (24.0 * 48.0)) * 24.0) + y + 24.0) * 48.0 + 24.0)
+                    add_child(new_spider)
                 if cell == 6 and roll_wall > 50:
                     get_node("TileMap").set_cell(x + 5, int(ceil(get_node("Player").position.y / (24.0 * 48.0)) * 24.0 + 24.0) + y, 0)
 

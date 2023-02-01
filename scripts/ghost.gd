@@ -11,7 +11,7 @@ func _physics_process(delta):
     hitting_data = move_and_collide((get_parent().get_node("Player").position - position).normalized() * 1.0)
 #    if get_parent().get_node("Player").vec_v != 0.0:
     if hitting_data != null and hitting_data.collider.has_method("damaged_by") and not is_queued_for_deletion():
-        get_parent().get_node("Player").damaged_by(1, (position - get_parent().get_node("Player").position).normalized())
+        get_parent().get_node("Player").damaged_by(1, (position - get_parent().get_node("Player").position) * delta)
         to_move = (-get_parent().get_node("Player").position + position * 2.0) * 1.2
     
     if to_move != Vector2.ZERO:
