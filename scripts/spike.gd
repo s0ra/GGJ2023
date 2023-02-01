@@ -19,8 +19,8 @@ func _physics_process(delta):
     if get_node("Reset").is_stopped() and get_node("SpikeUp").is_stopped():
         get_node("Sprite").frame = 0
     
-    if not get_node("VisibilityNotifier2D").is_on_screen():
-        queue_free()
+#    if not get_node("VisibilityNotifier2D").is_on_screen():
+#        queue_free()
 
 func _on_Spike_body_entered(body):
     entered = true
