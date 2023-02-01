@@ -24,7 +24,7 @@ func _ready():
     old_mask = collision_mask
     old_layer = collision_layer
 
-func _process(delta):
+func _physics_process(delta):
     has_moved = false
     get_node("Sword/Sprite").flip_h = false
     get_node("Sword/Sprite").position.x = 5.0
@@ -101,7 +101,7 @@ func _process(delta):
         
         get_node("Sword").position.x = 0.0
         get_node("Sword").position.y = 0.0
-        get_node("Sword").look_at(get_parent().get_node("Path").rope.back())
+        get_node("Sword").look_at(get_parent().get_node("Path").rope[get_parent().get_node("Path").rope_count - 1])
         get_node("Sword").rotation_degrees += 45.0
         has_moved = false
     if not Input.is_action_pressed("action_jump"):
@@ -114,7 +114,7 @@ func _process(delta):
         jumped = true
         
     if has_moved and get_parent().get_node("Path").rope.size() > 0:
-        var last_moved : Vector2 = get_parent().get_node("Path").rope.back()
+        var last_moved : Vector2 = get_parent().get_node("Path").rope[get_parent().get_node("Path").rope_count - 1]
         for i in range(int(position.distance_to(last_moved) / 1.0)):
             get_parent().get_node("Path").add_rope_point(last_moved.linear_interpolate(position, float(i) / int((position.distance_to(last_moved) / 1.0))))
     
@@ -141,16 +141,17 @@ func _process(delta):
 #    elif get_node("Invincibility").is_stopped():
 #        collision_mask = old_mask
 #        collision_layer = old_layer
+    
         
 
 func damaged_by(damage : int, hit_dir : Vector2):
     if get_node("Invincibility").is_stopped():
         hp -= damage
-        print(hp)
+#        print(hp)
         get_parent().get_node("CanvasLayer/HP").text = "HP: " + str(hp)
         get_node("Invincibility").start(0.3)
-#        if not test_move(transform, -hit_dir * 100.0):
-#            translate(-hit_dir * 100.0)
-        move_and_collide(-hit_dir * 100.0)
+        if not test_move(transform, -hit_dir * 100.0):
+            translate(-hit_dir * 100.0)
+#        move_and_collide(-hit_dir * 100.0)
 #        else:
 #            translate(hit_dir * 100.0)

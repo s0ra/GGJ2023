@@ -6,7 +6,7 @@ export var is_left = false
 func _ready():
     pass
 
-func _process(delta):
+func _physics_process(delta):
     if to_move != Vector2.ZERO and get_node("Attack").is_stopped():
 #        if not test_move(transform, (to_move - position).normalized() * 500.0):
         translate((to_move - position).normalized() * 500.0 * delta)
@@ -18,11 +18,11 @@ func _process(delta):
 
     var hitting_data : KinematicCollision2D
     move_and_collide(Vector2(0.0, 20.0))
-    if test_move(transform, (get_parent().get_node("Player").position - position).normalized() * delta * 10.0):
-        hitting_data = move_and_collide((get_parent().get_node("Player").position - position).normalized() * delta * 10.0)
+#    if test_move(transform, (get_parent().get_node("Player").position - position).normalized() * delta * 10.0):
+    hitting_data = move_and_collide((get_parent().get_node("Player").position - position).normalized() * delta * 10.0, true, true, true)
 #    if get_parent().get_node("Player").vec_v != 0.0:
     if hitting_data != null and hitting_data.collider.has_method("damaged_by") and not is_queued_for_deletion():
-        print("hit")
+#        print("hit")
         var kb = Vector2.ZERO
         kb.y = 0.0
         kb.x += 1.0 * 48.0 * sign(position.x - get_parent().get_node("Player").position.x) * delta
@@ -50,10 +50,10 @@ func _process(delta):
         get_node("Attack").start(1.0)
         if is_left:
             to_move = position
-            to_move.x += -48.0 * 3.0
+            to_move.x += -48.0 * 2.0
         elif not is_left:
             to_move = position
-            to_move.x += 48.0 * 3.0
+            to_move.x += 48.0 * 2.0
         is_left = not is_left
         get_node("Reset").start(3.0)
         
@@ -61,3 +61,5 @@ func _process(delta):
         get_node("RayCast2D").rotation_degrees = 90.0
     else:
         get_node("RayCast2D").rotation_degrees = 270.0
+    if not get_node("VisibilityNotifier2D").is_on_screen():
+        queue_free()

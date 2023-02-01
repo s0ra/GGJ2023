@@ -9,7 +9,7 @@ func _ready():
     starting_pos = position
     pass
 
-func _process(delta):
+func _physics_process(delta):
     if to_move != Vector2.ZERO and get_node("Attack").is_stopped():
 #        if not test_move(transform, (to_move - position).normalized() * 500.0):
         if is_down:
@@ -32,7 +32,7 @@ func _process(delta):
         hitting_data = move_and_collide((get_parent().get_node("Player").position - position).normalized() * delta * 10.0)
 #    if get_parent().get_node("Player").vec_v != 0.0:
     if hitting_data != null and hitting_data.collider.has_method("damaged_by") and not is_queued_for_deletion():
-        print("hit")
+#        print("hit")
         var kb = Vector2.ZERO
         kb.y = 0.0
         kb.x += 1.0 * 48.0 * sign(position.x - get_parent().get_node("Player").position.x) * delta
@@ -60,6 +60,8 @@ func _process(delta):
         to_move = next_move
         is_down = true
         
+    if not get_node("VisibilityNotifier2D").is_on_screen():
+        queue_free()
     update()
 #    elif not get_node("RayCast2D").get_collider() is KinematicBody2D and to_move == Vector2.ZERO and is_on_floor():
 #        get_node("Attack").start(1.0)

@@ -7,7 +7,6 @@
 radius = 24.0
 
 [node name="Ghost" type="KinematicBody2D"]
-position = Vector2( 741, -83 )
 collision_layer = 2
 collision_mask = 0
 script = ExtResource( 2 )
@@ -23,6 +22,12 @@ __meta__ = {
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
+__meta__ = {
+"_edit_lock_": true
+}
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+scale = Vector2( 200, 300 )
 __meta__ = {
 "_edit_lock_": true
 }

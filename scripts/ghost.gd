@@ -5,7 +5,7 @@ var to_move : Vector2 = Vector2.ZERO
 func _ready():
     pass
 
-func _process(delta):
+func _physics_process(delta):
     var hitting_data : KinematicCollision2D
     translate((get_parent().get_node("Player").position - position).normalized() * delta * 200.0)
     hitting_data = move_and_collide((get_parent().get_node("Player").position - position).normalized() * 1.0)
@@ -18,3 +18,7 @@ func _process(delta):
         translate((to_move - position).normalized() * 500.0 * delta)
         if to_move.distance_to(position) < 1.0:
             to_move = Vector2.ZERO
+            
+    if not get_node("VisibilityNotifier2D").is_on_screen():
+        queue_free()
+        
