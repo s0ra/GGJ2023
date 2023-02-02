@@ -3,6 +3,8 @@ extends KinematicBody2D
 var to_move : Vector2 = Vector2.ZERO
 export var is_left = false
 
+var hp = 1
+
 func _ready():
     pass
 
@@ -63,4 +65,9 @@ func _physics_process(delta):
         get_node("RayCast2D").rotation_degrees = 270.0
     
     if not get_node("VisibilityNotifier2D").is_on_screen() and get_parent().get_node("Player").last_depth > position.y:
+        queue_free()
+        
+func take_damage(damage):
+    hp -= damage
+    if hp <= 0:
         queue_free()

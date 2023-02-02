@@ -5,6 +5,8 @@ var starting_pos : Vector2
 var is_down : bool = false
 #export var is_left = false
 
+var hp = 1
+
 func _ready():
     starting_pos = position
     pass
@@ -81,3 +83,9 @@ func _physics_process(delta):
 
 func _draw():
     draw_line(starting_pos - position, Vector2.ZERO, Color.white)
+
+        
+func take_damage(damage):
+    hp -= damage
+    if hp <= 0:
+        queue_free()

@@ -10,30 +10,45 @@ var rat = preload("res://scenes/rat.tscn")
 var spider = preload("res://scenes/spider.tscn")
 var ghost = preload("res://scenes/ghost.tscn")
 var spike = preload("res://scenes/spike.tscn")
+
+var minotaur = preload("res://scenes/minotaur.tscn")
+
 var all_cleared : bool = false
 
+var pool : Array = []
+var level_count : int = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    seed(1)
+    seed(Time.get_unix_time_from_system())
+    pool.resize(60)
+    for i in range(60):
+        pool[i] = i + 1
+    pool.shuffle()
+        
     pass # Replace with function body.
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-    if get_node("Player").position.y > 48.0 * 48.0 * 12.0:
+    if get_node("Player").position.y > 48.0 * 48.0 * 7.0:
         all_cleared = true
     if get_node("TileMap").get_cell(5, int(stepify(get_node("Player").position.y / 48.0, 48.0)) + 1) == -1 and get_node("Player").position.y > 0.0 and get_node("Player").position.y > get_node("Player").last_depth and not all_cleared:
 #        for x in range(11):
 #            for y in range(50):
 #                get_node("TileMap").set_cell(x + 5, y + int(float(ceil(get_node("Player").position.y / (24.0 * 48.0)) * 24.0) - 96), -1)
 
-        var level_id = str(randi() % 60 + 1)
-        print(level_id)
+        var level_id = pool[level_count]
+        level_count += 1
+        
+        print(ceil(get_node("Player").position.y / (24.0 * 48.0)) / 2)
         var scene = load("res://scenes/rooms/room" + str(level_id) + ".tscn").instance()
         var tilemap = scene.get_node("TileMap")
         var roll_wall = randi() % 100 
         var roll_monster = randi() % 100
+        
+#        print("level " + str(ceil(get_node("Player").position.y / (24.0 * 48.0))))
+            
         for x in range(11):
             for y in range(25):
                 var cell : int = tilemap.get_cell(x + 5, y)
@@ -75,15 +90,30 @@ func _physics_process(delta):
                     add_child(new_spider)
                 if cell == 6 and roll_wall > 50:
                     get_node("TileMap").set_cell(x + 5, int(ceil(get_node("Player").position.y / (24.0 * 48.0)) * 24.0) + y, 0)
+                    
+        tilemap.queue_free()
+        scene.queue_free()
+        tilemap.free()
+        scene.free()
         
-        level_id = randi() % 60 + 1
-        print(level_id)
+    if get_node("TileMap").get_cell(5, int(stepify(get_node("Player").position.y / 48.0, 48.0)) + 24 + 1) == -1 and get_node("Player").position.y > 0.0 and get_node("Player").position.y > get_node("Player").last_depth and not all_cleared:
+        var level_id = pool[level_count]
+        level_count += 1
+#        print(level_id)
 
         var scene2 = load("res://scenes/rooms/room" + str(level_id) + ".tscn").instance()
         var tilemap2 = scene2.get_node("TileMap")
-        
-        roll_wall = randi() % 100 
-        roll_monster = randi() % 100
+        print(ceil(get_node("Player").position.y / (24.0 * 48.0)) / 2)
+        if ceil(get_node("Player").position.y / (24.0 * 48.0)) / 2 == 7:
+            scene2.free()
+            scene2 = load("res://scenes/rooms/room" + "_boss" + ".tscn").instance()
+            tilemap2 = scene2.get_node("TileMap")
+            var new_minotaur = minotaur.instance()
+            new_minotaur.position = Vector2(float(13) * 48.0 + 24.0, float(int(ceil(get_node("Player").position.y / (24.0 * 48.0)) * 24.0) + 23 + 24.0) * 48.0 + 24.0)
+            add_child(new_minotaur)
+            
+        var roll_wall = randi() % 100 
+        var roll_monster = randi() % 100
         
         for x in range(11):
             for y in range(25):
@@ -127,14 +157,9 @@ func _physics_process(delta):
                 if cell == 6 and roll_wall > 50:
                     get_node("TileMap").set_cell(x + 5, int(ceil(get_node("Player").position.y / (24.0 * 48.0)) * 24.0 + 24.0) + y, 0)
 
-        tilemap.queue_free()
         tilemap2.queue_free()
-        scene.queue_free()
         scene2.queue_free()
-        
-        tilemap.free()
         tilemap2.free()
-        scene.free()
         scene2.free()
 #        for i in range(40):
 #            for j in range(24):

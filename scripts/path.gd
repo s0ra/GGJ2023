@@ -8,14 +8,14 @@ func _ready():
     rope.resize(10000000)
     rope_count = 1
     rope[0] = get_parent().get_node("Player").position
-    print(rope.size())
+#    print(rope.size())
 
 func add_rope_point(point):
     if rope_count < 10000000:
         rope[rope_count] = point
         rope_count += 1
-    else:
-        print("game over")
+#    else:
+#        print("game over")
 
 func rope_pulling():
     if rope_count > 1:
@@ -28,5 +28,5 @@ func _physics_process(delta):
     update()
     
 func _draw():
-    for i in range(max(0, int(stepify(rope_count, 10000) - 6000)), rope_count - 1):
+    for i in range(max(0, int(stepify(rope_count, 10000) - 20000)), rope_count - 1):
         draw_line(rope[i], rope[i + 1], Color.red)
