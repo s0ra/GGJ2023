@@ -17,7 +17,7 @@ var last_depth : float = 0.0
 var old_mask
 var old_layer
 
-export var hp : int = 5
+export var hp : int = 6
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -149,7 +149,7 @@ func damaged_by(damage : int, hit_dir : Vector2):
         hp -= damage
 #        print(hp)
         get_parent().get_node("CanvasLayer/HP").text = "HP: " + str(hp)
-        get_node("Invincibility").start(0.3)
+        get_node("Invincibility").start(0.75)
         if not test_move(transform, -hit_dir * 100.0):
             translate(-hit_dir * 100.0)
 #        move_and_collide(-hit_dir * 100.0)

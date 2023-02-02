@@ -11,9 +11,11 @@ var spider = preload("res://scenes/spider.tscn")
 var ghost = preload("res://scenes/ghost.tscn")
 var spike = preload("res://scenes/spike.tscn")
 var all_cleared : bool = false
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-    rand_seed(1)
+    seed(1)
     pass # Replace with function body.
 
 
