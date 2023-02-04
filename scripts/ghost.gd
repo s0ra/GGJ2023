@@ -27,9 +27,7 @@ func _physics_process(delta):
             
     if not get_node("VisibilityNotifier2D").is_on_screen() and get_parent().get_node("Player").last_depth > position.y:
         queue_free()
-        
-
-        
+    
 func take_damage(damage):
     hp -= damage
     if hp <= 0:

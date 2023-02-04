@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/8bitvictory.ogg-ef835715d327bcb70eeadbc627e92cfa.oggstr"
+
+[deps]
+
+source_file="res://sfx/8bitvictory.ogg"
+dest_files=[ "res://.import/8bitvictory.ogg-ef835715d327bcb70eeadbc627e92cfa.oggstr" ]
+
+[params]
+
+loop=true
+loop_offset=0

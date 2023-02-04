@@ -6,10 +6,16 @@ var is_left = true
 
 var is_ghost = true
 
-var hp = 3
+var ghost = preload("res://scenes/ghost.tscn")
+var rat = preload("res://scenes/rat.tscn")
+
+var hp : int = 6
+var special : bool = false
 
 func _ready():
     get_node("Mode").start(3.0)
+    if special:
+        hp = 3
     pass
 
 func _physics_process(delta):
@@ -31,7 +37,7 @@ func _physics_process(delta):
         if to_move.distance_to(position) < 1.0:
             to_move = Vector2.ZERO
    
-    if not is_ghost:
+    if not is_ghost and position.y < get_parent().get_node("Player").position.y:
         move_and_collide(Vector2(0.0, 20.0))
         
     if not is_ghost and get_node("RayCast2D").get_collider() is KinematicBody2D and to_move == Vector2.ZERO:
@@ -57,23 +63,63 @@ func _physics_process(delta):
     
     if not get_node("Invincibility").is_stopped():
         collision_layer = 0
+        get_node("Sprite").self_modulate = Color.red
     elif is_ghost:
         collision_layer = 2
+        get_node("Sprite").self_modulate = Color.white
     elif not is_ghost:
-        collision_layer = 4
+        collision_layer = 2
+        get_node("Sprite").self_modulate = Color.white
         
     if get_node("Mode").is_stopped() and get_parent().get_node("TileMap").get_cell(get_parent().get_node("TileMap").world_to_map(position).x, get_parent().get_node("TileMap").world_to_map(position).y) == 3:
         is_ghost = not is_ghost
         get_node("Mode").start(6.0)
 #        print("changed")
-
+    
         
 func take_damage(damage):
     if get_node("Invincibility").is_stopped():
         collision_layer = 0
         hp -= damage
 #        print("hit boss")
+
+        var new_ghost = ghost.instance()
+        new_ghost.position = Vector2(float(13) * 48.0 + 24.0 - 48.0,  48.0 * 24.0 * 15.8 + 24.0 - 48.0)
+        get_parent().add_child(new_ghost)
+
+        var new_ghost1 = ghost.instance()
+        new_ghost1.position = Vector2(float(13) * 48.0 + 24.0 + 48.0,  48.0 * 24.0 * 15.8 + 24.0 - 48.0)
+        get_parent().add_child(new_ghost1)
+
+        var new_ghost2 = ghost.instance()
+        new_ghost2.position = Vector2(float(13) * 48.0 + 24.0 - 48.0,  48.0 * 24.0 * 15.8 + 24.0 + 48.0)
+        get_parent().add_child(new_ghost2)
+
+        var new_ghost3 = ghost.instance()
+        new_ghost3.position = Vector2(float(13) * 48.0 + 24.0 + 48.0,  48.0 * 24.0 * 15.8 + 24.0 + 48.0)
+        get_parent().add_child(new_ghost3)
+        
+        if special:
+            var new_rat = rat.instance()
+            new_rat.position = Vector2(float(13) * 48.0 + 24.0 - 48.0,  48.0 * 24.0 * 15.8 + 24.0 - 48.0)
+            get_parent().add_child(new_rat)
+
+            var new_rat1 = rat.instance()
+            new_rat1.position = Vector2(float(13) * 48.0 + 24.0 + 48.0,  48.0 * 24.0 * 15.8 + 24.0 - 48.0)
+            get_parent().add_child(new_rat1)
+
+            var new_rat2 = rat.instance()
+            new_rat2.position = Vector2(float(13) * 48.0 + 24.0 - 48.0,  48.0 * 24.0 * 15.8 + 24.0 + 48.0)
+            get_parent().add_child(new_rat2)
+
+            var new_rat3 = rat.instance()
+            new_rat3.position = Vector2(float(13) * 48.0 + 24.0 + 48.0,  48.0 * 24.0 * 15.8 + 24.0 + 48.0)
+            get_parent().add_child(new_rat3)
+        
         get_node("Invincibility").start(3.0)
+        
         if hp <= 0:
+            get_parent().get_node("Player/BossMusic").stop()
+            get_parent().get_node("Player/Win").play()
             get_parent().get_node("CanvasLayer/YouWin").visible = true
             queue_free()
